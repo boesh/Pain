@@ -10,28 +10,28 @@ public class EnemySpotScript : MonoBehaviour {
     {
         if (col.gameObject.tag == "Player")
         {
-            
 
             enemy.currentState = EnemyStates.Chase;
             enemy.unitData.moveBoost = 1.5f;
+
             if (enemy.target.position.x > enemy.transform.position.x)
             {
-                enemy.looksRight = true;
+                enemy.sr.flipX = true;
             }
             else
             {
-                enemy.looksRight = false;
+                enemy.sr.flipX = false;
             }
         }
     }
 
-    // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         enemy = GetComponentInChildren<Enemy>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		if(enemy == null)
         {
             Destroy(gameObject);

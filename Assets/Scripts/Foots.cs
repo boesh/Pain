@@ -22,14 +22,4 @@ public class Foots : MonoBehaviour {
             grounded = false;
         }
     }
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

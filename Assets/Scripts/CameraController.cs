@@ -7,12 +7,10 @@ public class CameraController : MonoBehaviour {
     public Transform target;
     public float smooth;
 
-	// Use this for initialization
 	void Start () {
-		
+        target = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 	
-	// Update is called once per frame
 	void LateUpdate () {
         if (target != null)
         transform.position = new Vector3(transform.position.x + (target.position.x - transform.position.x)

@@ -13,7 +13,6 @@ public class Arrow : MonoBehaviour {
     float timer = 0;
     public bool flipX;
 
-
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Enemy")
@@ -30,16 +29,13 @@ public class Arrow : MonoBehaviour {
         }
 
     }
-    // Use this for initialization
+
     void Start () {
         //rb2d = GetComponent<Rigidbody2D>();
         pc2d = GetComponent<PolygonCollider2D>();
         
     }
 	
-    
-
-	// Update is called once per frame
 	void Update () {
         timer += Time.deltaTime;
         if (timer > timeoutDestructor)
@@ -47,23 +43,13 @@ public class Arrow : MonoBehaviour {
             Destroy(gameObject);
         }
 
-
         if (flipX)
         {
-            //transform.rotation *= new Quaternion(0f, 180, 0, 0);
             transform.position = new Vector3(transform.position.x - speed * Time.deltaTime, transform.position.y, transform.position.z);
-
         }
         else
         {
             transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y, transform.position.z);
-
-
         }
-
-
-
-
-
     }
 }
