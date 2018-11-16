@@ -8,10 +8,10 @@ public class Arrow : MonoBehaviour {
     public int damage = 10;
     public float speed = 5;
     //public Rigidbody2D rb2d;
-    public PolygonCollider2D pc2d;
+    PolygonCollider2D pc2d;
     public float timeoutDestructor = 5;
     float timer = 0;
-    public bool flipX;
+    public bool isLooksRight;
 
     private void OnTriggerEnter2D(Collider2D col)
     {
@@ -43,13 +43,15 @@ public class Arrow : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        if (flipX)
+        if (isLooksRight)
         {
-            transform.position = new Vector3(transform.position.x - speed * Time.deltaTime, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y, transform.position.z);
+
         }
         else
         {
-            transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x - speed * Time.deltaTime, transform.position.y, transform.position.z);
+
         }
     }
 }

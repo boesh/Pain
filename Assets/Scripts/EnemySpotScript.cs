@@ -12,16 +12,9 @@ public class EnemySpotScript : MonoBehaviour {
         {
 
             enemy.currentState = EnemyStates.Chase;
-            enemy.unitData.moveBoost = 1.5f;
 
-            if (enemy.target.position.x > enemy.transform.position.x)
-            {
-                enemy.sr.flipX = true;
-            }
-            else
-            {
-                enemy.sr.flipX = false;
-            }
+           
+           
         }
     }
 

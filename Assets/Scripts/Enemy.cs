@@ -14,10 +14,9 @@ public class Enemy : MonoBehaviour {
     public EnemyStates currentState;
 
     public Transform target;
-    public SpriteRenderer sr;
+    SpriteRenderer sr;
     public UnitData unitData = new UnitData(2, 1, 0, 50);
     Rigidbody2D rb2d;
-    public bool looksRight;
     float elapsedAttackTime;
 
     private void OnCollisionStay2D(Collision2D col)
@@ -27,7 +26,7 @@ public class Enemy : MonoBehaviour {
             if (elapsedAttackTime > unitData.attackInterval)
             {
                 col.gameObject.GetComponent<Player>().unitData.currentHP -= unitData.damage;
-                col.gameObject.GetComponent<Player>().rb.AddForce(sr.flipX ? (Vector2.up + Vector2.right) * 4 : (Vector2.up - Vector2.right) * 4, ForceMode2D.Impulse);
+                col.gameObject.GetComponent<Player>().rb.AddForce(unitData.isLooksRight ? (Vector2.up + Vector2.right) * 4 : (Vector2.up - Vector2.right) * 4, ForceMode2D.Impulse);
                 elapsedAttackTime = 0;
             }
         }
@@ -45,27 +44,28 @@ public class Enemy : MonoBehaviour {
             currentState = EnemyStates.Patrol;
             unitData.moveBoost = 1;
 
-            if (sr.flipX)
+            if (unitData.isLooksRight)
             {
-                sr.flipX = false;
+                unitData.isLooksRight = false;
             }
             else
             {
-                sr.flipX = true;
+                unitData.isLooksRight = true;
             }
         }
     }
 
-    void Start () {
+    void Start ()
+    {
         rb2d = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         target = GameObject.FindWithTag("Player").transform;
-        
     }
 
     private void Update()
     {
         elapsedAttackTime += Time.deltaTime;
+        sr.flipX = !unitData.isLooksRight;
     }
 
     void FixedUpdate () {
@@ -82,13 +82,15 @@ public class Enemy : MonoBehaviour {
         
         if (currentState == EnemyStates.Chase)
         {
-            sr.flipX = target.transform.position.x < transform.position.x;
-            unitData.HorizontalMove(transform, !sr.flipX);
+            unitData.isLooksRight = target.transform.position.x > transform.position.x;
+            unitData.moveBoost = 1.5f;
+
+            unitData.HorizontalMove(transform, unitData.isLooksRight);
         }
 
         if (currentState == EnemyStates.Patrol)
         {
-            unitData.HorizontalMove(transform, sr.flipX);    
+            unitData.HorizontalMove(transform, unitData.isLooksRight);    
         }
 
     }

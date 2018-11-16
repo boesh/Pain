@@ -14,9 +14,10 @@ public class UnitData
     public int currentHP;
     public float moveBoost;
     public bool grounded;
+    public bool isLooksRight;
 
 
-    public UnitData(float ms = 2, float ai = 2, int dmg = 5, int mHP = 100, float mb = 1, bool grnd = true)
+    public UnitData(float ms = 2, float ai = 2, int dmg = 5, int mHP = 100, float mb = 1, bool grnd = true, bool look = true)
     {
         moveSpeed = ms;
         attackInterval = ai;
@@ -25,9 +26,10 @@ public class UnitData
         currentHP = mHP;
         moveBoost = mb;
         grounded = grnd;
+        isLooksRight = look;
     }
 
-    public virtual void HorizontalMove (Transform unit, bool moveRight)
+    public void HorizontalMove (Transform unit, bool moveRight)
     {
         if (moveRight)
         {

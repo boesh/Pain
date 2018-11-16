@@ -24,7 +24,7 @@ public class Player : MonoBehaviour {
     BoxCollider2D bc2dBody;
     Foots foots;
     public Rigidbody2D rb;
-    public UnitData unitData = new UnitData(2, 1, 10, 100);
+    public UnitData unitData = new UnitData(2, 1, 10, 100, 1, true, true);
 
     void AnimationSets()
     {
@@ -51,17 +51,18 @@ public class Player : MonoBehaviour {
     {
         currentPlayerState = States.RangeAttack;
 
-        if (rend.flipX)
+        if (unitData.isLooksRight)
         {
+            Arrow clone = Arrow.Instantiate(arrow, gameObject.transform.position + Vector3.right / 2f + Vector3.up / 4f, arrow.transform.rotation);
 
-            Arrow clone = Arrow.Instantiate(arrow, gameObject.transform.position + -Vector3.right / 2f + Vector3.up / 4f, arrow.transform.rotation * new Quaternion(0, 180, 0, 0));
-            clone.flipX = rend.flipX;
+            clone.isLooksRight = unitData.isLooksRight;
             clone.damage = unitData.damage;
         }
         else
         {
-            Arrow clone = Arrow.Instantiate(arrow, gameObject.transform.position + Vector3.right / 2f + Vector3.up / 4f, arrow.transform.rotation);
-            clone.flipX = rend.flipX;
+            Arrow clone = Arrow.Instantiate(arrow, gameObject.transform.position + -Vector3.right / 2f + Vector3.up / 4f, arrow.transform.rotation * new Quaternion(0, 180, 0, 0));
+
+            clone.isLooksRight = unitData.isLooksRight;
             clone.damage = unitData.damage;
         }
 
@@ -88,11 +89,13 @@ public class Player : MonoBehaviour {
         unitData.grounded = foots.grounded;
         elapsedAttackTime += Time.deltaTime;
         bc2dBody.size = new Vector2(rend.sprite.textureRect.size.x / rend.sprite.pixelsPerUnit, rend.sprite.textureRect.size.y / rend.sprite.pixelsPerUnit);
+        rend.flipX = !unitData.isLooksRight;
 
+        Debug.Log(unitData.isLooksRight);
 
         if (Input.GetButton("Horizontal") && currentPlayerState != States.Sit)
         {
-            rend.flipX = Input.GetAxis("Horizontal") < 0;
+            unitData.isLooksRight = Input.GetAxis("Horizontal") > 0;
             currentPlayerState = States.Walk;
             unitData.moveBoost = 1;
             unitData.HorizontalMove(transform, Input.GetAxis("Horizontal") > 0);
@@ -100,7 +103,7 @@ public class Player : MonoBehaviour {
 
         if (Input.GetButton("Horizontal") && Input.GetButton("Run") && currentPlayerState != States.Sit)
         {
-            rend.flipX = Input.GetAxis("Horizontal") < 0;
+            unitData.isLooksRight = Input.GetAxis("Horizontal") > 0;
             currentPlayerState = States.Run;
             unitData.moveBoost = 2;
             unitData.HorizontalMove(transform, Input.GetAxis("Horizontal") > 0);
