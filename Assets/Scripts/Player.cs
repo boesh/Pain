@@ -83,13 +83,18 @@ public class Player : MonoBehaviour {
         anim = GetComponent<Animator>();
         bc2dBody = GetComponent<BoxCollider2D>();     
     }
-	
-	void Update ()
-	{
+
+    private void LateUpdate()
+    {
         unitData.grounded = foots.grounded;
         elapsedAttackTime += Time.deltaTime;
         bc2dBody.size = new Vector2(rend.sprite.textureRect.size.x / rend.sprite.pixelsPerUnit, rend.sprite.textureRect.size.y / rend.sprite.pixelsPerUnit);
         rend.flipX = !unitData.isLooksRight;
+    }
+
+    void Update ()
+	{
+        
 
         Debug.Log(unitData.isLooksRight);
 
@@ -98,7 +103,7 @@ public class Player : MonoBehaviour {
             unitData.isLooksRight = Input.GetAxis("Horizontal") > 0;
             currentPlayerState = States.Walk;
             unitData.moveBoost = 1;
-            unitData.HorizontalMove(transform, Input.GetAxis("Horizontal") > 0);
+            unitData.HorizontalMove(transform);
         }
 
         if (Input.GetButton("Horizontal") && Input.GetButton("Run") && currentPlayerState != States.Sit)
@@ -106,7 +111,8 @@ public class Player : MonoBehaviour {
             unitData.isLooksRight = Input.GetAxis("Horizontal") > 0;
             currentPlayerState = States.Run;
             unitData.moveBoost = 2;
-            unitData.HorizontalMove(transform, Input.GetAxis("Horizontal") > 0);
+            unitData.HorizontalMove(transform);
+
         }
 
         if (Input.GetButtonDown("Jump") && unitData.grounded)
@@ -151,6 +157,14 @@ public class Player : MonoBehaviour {
 
     void FixedUpdate()
     {
-       
+       switch (currentPlayerState)
+        {
+            case States.Walk:
+                break;
+            case States.Run:
+                break;
+            case States.Jump:
+                break;
+        }
     }
 }

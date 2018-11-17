@@ -29,9 +29,9 @@ public class UnitData
         isLooksRight = look;
     }
 
-    public void HorizontalMove (Transform unit, bool moveRight)
+    public void HorizontalMove (Transform unit)
     {
-        if (moveRight)
+        if (isLooksRight)
         {
             unit.position = new Vector3(unit.position.x + moveSpeed * moveBoost* Time.deltaTime, unit.position.y, unit.position.z);
         }

@@ -85,12 +85,12 @@ public class Enemy : MonoBehaviour {
             unitData.isLooksRight = target.transform.position.x > transform.position.x;
             unitData.moveBoost = 1.5f;
 
-            unitData.HorizontalMove(transform, unitData.isLooksRight);
+            unitData.HorizontalMove(transform);
         }
 
         if (currentState == EnemyStates.Patrol)
         {
-            unitData.HorizontalMove(transform, unitData.isLooksRight);    
+            unitData.HorizontalMove(transform);    
         }
 
     }
